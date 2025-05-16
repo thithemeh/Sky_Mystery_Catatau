@@ -1,0 +1,58 @@
+Em primeiro lugar, temos que abrir o arquivo início:
+
+comando: cat Início
+
+Este arquivo nos diz para procurar pela palavra PISTA no arquivo 
+cena-do-crime, então vamos dar o seguinte comando:
+
+comando: grep PISTA cena-do-crime
+
+temos o seguinte resultado:
+
+"PISTA: A filmagem do caixa eletrônico está embaçada, mas mostra que o suspeito é um homem de cabelo castanho (?), com 1,70 e pouco de altura.
+PISTA: Encontramos uma carteira que provavelmente pertence ao assassino. Nenhum documento de identidade, apenas alguns trocados e carteirinhas dos grupos Karate, Skyrats e biblioteca. Impossível rastrear as carteirinhas, e nenhuma delas possui nome, por algum motivo.
+PISTA: Interrogamos o garçom da cafeteria próxima à cena. Ele disse que uma mulher saiu da cafeteria logo antes de ouvirem os tiros. O nome dela era Giovana, tinha cabelo moreno médio e um sotaque da Nova Zelândia.
+"
+
+Então, vamos procurar por Giovana no arquivo pessoas:
+
+comando: grep Giovana pessoas
+
+temos esse resultado:
+
+Giovana Sun	F	26	Vila Hart, linha 40
+Oluwasegun Giovana	M	37	Rua Mattapan, linha 173
+Giovana Souza	F	38	Vila Buckingham, linha 179
+Giovana Fuglsang	M	40	Rua Haley, linha 176
+
+Já antecipando o cansaço, nenhuma Giovana além de Giovana Souza fornece
+informações importantes, então podemos ir para a localização de 
+Giovana Souza diretamente:
+
+comando: head -n 179 Vila_Buckingham
+
+É indicado que precisamos ler a entrevista 699607, então vamos lê-la:
+
+comando: cat entrevista-699607
+
+Temos o seguinte texto: Entrevistamos a Srta. Souza às 14:04 no segundo andar do CITI-USP. A testemunha afirmou que não viu ninguém com as características do atirador e que saiu correndo com o Sr.Vasconcellos de moto assim que os tiros foram disparados.
+No entanto, ela reportou que viu um carro fugindo da cena do crime. Descreveu como um Up azul, com placa que começa com "GGW" e termina com "7", que saiu cantando pneu em direção ao Sweden. 
+
+Então, vamos verificar por veículos:
+
+comando: grep -A 7 GGW automoveis
+
+Temos diversas pessoas com carros que se encaixam com a descrição, mas 
+chegamos em dois homens que têm alturas que se encaixam com a descrição:
+Enzo Bizinoto e Lucas Extintor.
+
+Para concluir a análise, iremos verificar por pessoas que fazem parte
+das associações Karate, Skyrats e Biblioteca:
+
+comando: grep -Fxf Skyrats Biblioteca_da_Cidade | grep -Fxf - Karate
+
+Ao fazer esse comando, aparece Lucas Extintor de pessoas que apareram
+até então, assim podemos afirmar que Lucas Extintor é o mais provável 
+de ser o assassino.
+
+RESPOSTA FINAL: LUCAS EXTINTOR
